@@ -1,6 +1,7 @@
 # External Interrupts in ATMEGA328
 
-External interrupts allow the microcontroller to respond to external events asynchronously. The ATmega328 has **two external interrupt pins (INT0 and INT1)** that can be triggered by various events, such as a rising edge, falling edge, or logic level change. Additionally, **Pin Change Interrupts (PCINT)** allow monitoring changes on a group of pins, enabling more flexible interrupt handling. These interrupts are useful for handling real-time events like button presses, sensor triggers, or communication signals.
+External interrupts allow the microcontroller to respond to external events asynchronously. The ATmega328 has **two external interrupt pins (INT0 and INT1)** that can be triggered by various events, such as a rising edge, falling edge, or logic level change.   
+Additionally, **Pin Change Interrupts (PCINT)** allow monitoring changes on a group of pins, enabling more flexible interrupt handling. These interrupts are useful for handling real-time events like button presses, sensor triggers, or communication signals.
 
 > [!CAUTION]
 > It is absolutely critical that you carefully read every single word of this document, line by line, to ensure you don't miss any details. Nothing can be overlooked.
