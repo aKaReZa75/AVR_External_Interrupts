@@ -82,7 +82,7 @@ This register is used to monitor the interrupt flags for external interrupts.
 #### Example:
 ```c
 /* Check if the external interrupt on INT0 occurred */
-if (bitCheck(EIFR, INTF0)) 
+if (bitCheckHigh(EIFR, INTF0)) 
 {
     /* Handle interrupt */
     bitSet(EIFR, INTF0);  // Clear the interrupt flag
@@ -198,7 +198,7 @@ bitSet(PCMSK0, PCINT1);
 #### Example:
 ```c
 /* Check if a Pin Change Interrupt occurred on Port D */
-if (bitCheck(PCIFR, PCIF2)) 
+if (bitCheckHigh(PCIFR, PCIF2)) 
 {
     /* Handle interrupt */
     bitSet(PCIFR, PCIF2);  // Clear the interrupt flag
