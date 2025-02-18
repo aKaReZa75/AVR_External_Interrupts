@@ -1,10 +1,273 @@
 # External Interrupts in ATMEGA328
 
-External interrupts allow the microcontroller to respond to external events asynchronously. The ATmega328 has **two external interrupt pins (INT0 and INT1)** that can be triggered by various events, such as a rising edge, falling edge, or logic level change. Additionally, **Pin Change Interrupts (PCINT)** allow monitoring changes on a group of pins, enabling more flexible interrupt handling. These interrupts are useful for handling real-time events like button presses, sensor triggers, or communication signals.
+External interrupts in microcontrollers like the ATMEGA328 are used to trigger an interrupt based on external events such as a button press or a signal change. These interrupts are useful for responding to events asynchronously, which allows the main program to continue running while it waits for an interrupt to occur. The ATMEGA328 has several external interrupt pins (INT0, INT1) that can be configured to trigger interrupts on specific events like a rising edge, falling edge, or any logical change on the input signal.
 
 > [!CAUTION]
 > It is absolutely critical that you carefully read every single word of this document, line by line, to ensure you don't miss any details. Nothing can be overlooked.
 
+## Registers & Bit Descriptions
+
+The external interrupt configuration and control are managed by specific registers in the ATMEGA328. Here are the main registers involved:
+
+### 1. EIMSK (External Interrupt Mask Register)
+This register controls the enabling and disabling of external interrupts.
+
+| Bit   | Name  | Description                               |
+|-------|-------|-------------------------------------------|
+| 0     | INT0  | Enable external interrupt on INT0 pin     |
+| 1     | INT1  | Enable external interrupt on INT1 pin     |
+
+#### Example:
+> [!NOTE]  
+> The macros used in the code below are all defined in the `aKaReZa.h` header file, and detailed descriptions of these macros can be found at the following link:  
+> [https://github.com/aKaReZa75/AVR/blob/main/Macros.md](https://github.com/aKaReZa75/AVR/blob/main/Macros.md)
+
+```c
+/* Enable external interrupt on INT0 */
+bitSet(EIMSK, INT0);
+
+/* Enable external interrupt on INT1 */
+bitSet(EIMSK, INT1);
+```
+
+### 2. EICRA (External Interrupt Control Register A)
+This register controls the trigger conditions for external interrupts (rising, falling, or any logical change).
+
+| Bit   | Name   | Description                                       |
+|-------|--------|---------------------------------------------------|
+| 0     | ISC00   | Interrupt 0 Sense Control Bit 0 (Rising/Falling)  |
+| 1     | ISC01   | Interrupt 0 Sense Control Bit 1 (Rising/Falling)  |
+| 2     | ISC10   | Interrupt 1 Sense Control Bit 0 (Rising/Falling)  |
+| 3     | ISC11   | Interrupt 1 Sense Control Bit 1 (Rising/Falling)  |
+
+- ISC00 and ISC01 control the sense level for INT0.
+- ISC10 and ISC11 control the sense level for INT1.
+
+#### INTx Trigger Conditions (ISCx0, ISCx1):
+1. **Low Level (ISCx0 = 0, ISCx1 = 0)**:  
+   - The interrupt will trigger when the external pin INTx is at a low level (0V).
+   - This is used when you want to trigger an interrupt for a constant low signal.
+
+2. **Any Logical Change (ISCx0 = 1, ISCx1 = 0)**:  
+   - The interrupt will trigger on any logical change of the INTx pin (from high to low or low to high).
+   - This is useful for detecting any changes in state.
+
+3. **Falling Edge (ISCx0 = 0, ISCx1 = 1)**:  
+   - The interrupt will trigger when the INTx pin transitions from high to low.
+   - This is often used to detect events like a button press when it is connected to ground.
+
+4. **Rising Edge (ISCx0 = 1, ISCx1 = 1)**:  
+   - The interrupt will trigger when the INTx pin transitions from low to high.
+   - This is often used to detect events like a button release when the pin is pulled high.
+
+#### Example:
+```c
+/* Set INT0 to trigger on rising edge */
+bitSet(EICRA, ISC00);
+bitSet(EICRA, ISC01);
+
+/* Set INT1 to trigger on falling edge */
+bitClear(EICRA, ISC10);
+bitSet(EICRA, ISC11);
+```
+
+### 3. EIFR (External Interrupt Flag Register)
+This register is used to monitor the interrupt flags for external interrupts.
+
+| Bit   | Name  | Description                           |
+|-------|-------|---------------------------------------|
+| 0     | INTF0 | External Interrupt Flag 0             |
+| 1     | INTF1 | External Interrupt Flag 1             |
+
+#### Example:
+```c
+/* Check if the external interrupt on INT0 occurred */
+if (bitCheck(EIFR, INTF0)) 
+{
+    /* Handle interrupt */
+    bitSet(EIFR, INTF0);  // Clear the interrupt flag
+}
+```
+
+## Example Code
+Below is an example of setting up external interrupts on INT0 and INT1 pins.
+
+```c
+#include "aKaReZa.h"
+
+/* External interrupt service routine for INT0 */
+ISR(INT0_vect) 
+{
+    /* Handle the interrupt triggered on INT0 */
+    /* Code to handle the interrupt */
+}
+
+/* External interrupt service routine for INT1 */
+ISR(INT1_vect) 
+{
+    /* Handle the interrupt triggered on INT1 */
+    /* Code to handle the interrupt */
+}
+
+int main(void) 
+{
+    /* Set INT0 to trigger on rising edge */
+    bitSet(EICRA, ISC00);
+    bitSet(EICRA, ISC01);
+
+    /* Set INT1 to trigger on falling edge */
+    bitClear(EICRA, ISC10);
+    bitSet(EICRA, ISC11);
+
+    /* Enable external interrupts for INT0 and INT1 */
+    bitSet(EIMSK, INT0);
+    bitSet(EIMSK, INT1);
+    
+    /* Global interrupt enable */
+    globalInt_Enable;
+    
+    while(1)
+    {
+        /* Main program running, interrupts will be handled asynchronously */
+    }
+}
+```
+
+## Pin Change Interrupts
+
+Pin Change Interrupts are a feature in microcontrollers that allow interrupts to be triggered based on changes (rising or falling edge) on specific pins, which are not necessarily part of the external interrupt pins. The ATMEGA328 has a set of Pin Change Interrupts that can be used to detect changes on general-purpose I/O pins. This is useful when you want to monitor signals on pins that are not directly connected to external interrupt lines.
+
+In the ATMEGA328, the Pin Change Interrupts can be triggered on pins PD0 to PD7 (for Port D), PB0 to PB7 (for Port B), and PC0 to PC5 (for Port C). The configuration of these interrupts is controlled through a set of registers.
+
+#### Key Registers for Pin Change Interrupts
+
+1. **PCICR (Pin Change Interrupt Control Register)**
+   This register enables or disables Pin Change Interrupts for each port (Port B, Port C, and Port D).
+
+| Bit   | Name     | Description                                  |
+|-------|----------|----------------------------------------------|
+| 0     | PCIE0    | Enable Pin Change Interrupt for Port B       |
+| 1     | PCIE1    | Enable Pin Change Interrupt for Port C       |
+| 2     | PCIE2    | Enable Pin Change Interrupt for Port D       |
+
+#### Example:
+```c
+/* Enable Pin Change Interrupt for Port D */
+bitSet(PCICR, PCIE2);
+
+/* Enable Pin Change Interrupt for Port B */
+bitSet(PCICR, PCIE0);
+```
+
+2. **PCMSK (Pin Change Mask Register)**
+   These registers control which individual pins within each port can trigger interrupts.
+
+- **PCMSK0 (Pin Change Mask Register for Port B)**
+- **PCMSK1 (Pin Change Mask Register for Port C)**
+- **PCMSK2 (Pin Change Mask Register for Port D)**
+
+Each bit in these registers corresponds to a pin on the respective port. When a bit is set to 1, the corresponding pin will generate an interrupt on a state change (rising or falling edge).
+
+| Bit   | Pin   | Description                           |
+|-------|-------|---------------------------------------|
+| 0     | PCINT0 | Pin Change Interrupt for Pin 0        |
+| 1     | PCINT1 | Pin Change Interrupt for Pin 1        |
+| 2     | PCINT2 | Pin Change Interrupt for Pin 2        |
+| 3     | PCINT3 | Pin Change Interrupt for Pin 3        |
+| 4     | PCINT4 | Pin Change Interrupt for Pin 4        |
+| ...   | ...   | ...                                   |
+
+#### Example:
+```c
+/* Enable Pin Change Interrupt for Pin 2 on Port D */
+bitSet(PCMSK2, PCINT2);
+
+/* Enable Pin Change Interrupt for Pin 1 on Port B */
+bitSet(PCMSK0, PCINT1);
+```
+
+3. **PCIFR (Pin Change Interrupt Flag Register)**
+   This register contains the flags that indicate whether a pin change interrupt has occurred. Each bit corresponds to a port (Port B, Port C, and Port D). Writing a `1` to a flag bit clears it.
+
+| Bit   | Name    | Description                         |
+|-------|---------|-------------------------------------|
+| 0     | PCIF0   | Pin Change Interrupt Flag for Port B|
+| 1     | PCIF1   | Pin Change Interrupt Flag for Port C|
+| 2     | PCIF2   | Pin Change Interrupt Flag for Port D|
+
+#### Example:
+```c
+/* Check if a Pin Change Interrupt occurred on Port D */
+if (bitCheck(PCIFR, PCIF2)) 
+{
+    /* Handle interrupt */
+    bitSet(PCIFR, PCIF2);  // Clear the interrupt flag
+}
+```
+
+#### Example Code to Configure Pin Change Interrupts
+
+```c
+#include "aKaReZa.h"
+
+/* Pin Change Interrupt service routine for Port D */
+ISR(PCINT2_vect) 
+{
+    /* Handle the interrupt triggered by a pin change on Port D */
+    /* Code to handle the interrupt */
+}
+
+/* Pin Change Interrupt service routine for Port B */
+ISR(PCINT0_vect) 
+{
+    /* Handle the interrupt triggered by a pin change on Port B */
+    /* Code to handle the interrupt */
+}
+
+int main(void) 
+{
+    /* Enable Pin Change Interrupt for Port D */
+    bitSet(PCICR, PCIE2);
+
+    /* Enable Pin Change Interrupt for Pin 3 on Port D */
+    bitSet(PCMSK2, PCINT3);
+
+    /* Enable Pin Change Interrupt for Port B */
+    bitSet(PCICR, PCIE0);
+
+    /* Enable Pin Change Interrupt for Pin 1 on Port B */
+    bitSet(PCMSK0, PCINT1);
+
+    /* Enable global interrupts */
+    globalInt_Enable();
+
+    while(1) 
+    {
+        /* Main program running, pin change interrupts will be handled asynchronously */
+    }    
+}
+```
+
+## Additional Considerations and Common Mistakes
+
+1. **Debouncing Issues**: When using external interrupts triggered by mechanical switches, debounce logic may be necessary to prevent multiple interrupts from being triggered by a single press.
+   
+   - **Solution**: Use a small delay or software debounce mechanism to ensure clean interrupts.
+
+2. **Interrupt Priority**: ATMEGA328 has fixed interrupt priority, and external interrupts are not the highest priority interrupts. Make sure to handle time-critical tasks in your code accordingly.
+
+3. **Interrupt Flags**: It's essential to clear the interrupt flag (via writing `1` to the flag bit in `EIFR`) in the ISR to ensure that the interrupt can be processed again in the future.
+
+> [!CAUTION]
+Always ensure that global interrupts are enabled using the `sei()` function. Without enabling global interrupts, the microcontroller will not respond to any interrupt triggers, including external interrupts or timer interrupts. The `sei()` function sets the Global Interrupt Flag (I-bit) in the Status Register (SREG), which allows interrupt requests to be processed by the microcontroller.
+
+You can use the following macros to enable and disable global interrupts:
+
+- **`globalInt_Enable`**: This macro is equivalent to calling `sei()`. It enables global interrupts, allowing the microcontroller to respond to interrupt requests.
+
+- **`globalInt_Disable`**: This macro is equivalent to calling `cli()`. It disables global interrupts, preventing the microcontroller from processing any interrupts.
+
+By following these steps and considerations, external interrupts can be effectively managed in the ATMEGA328, providing a robust way to handle asynchronous events.
 
 # 🔗 Resources
   Here you'll find a collection of useful links and videos related to the topic of AVR microcontrollers.  
