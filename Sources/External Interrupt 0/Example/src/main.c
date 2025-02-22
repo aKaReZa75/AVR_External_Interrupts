@@ -16,11 +16,7 @@ int main(void)
 {
   GPIO_Config_OUTPUT(RGB_R_Config, RGB_R_PIN);
 
-  bitSet(EIMSK, INT0);  /**< Enable External Interrupt 0 (SW3) */
-  /* Configure External Interrupt 0 to trigger on falling edge */
-  bitSet(EICRA, ISC01);
-  bitClear(EICRA, ISC00); 
-  intFlag_clear(EIFR, INTF0); /**< Clear the interrupt flag for INT0 */
+  eINT0_Init(Initialize);
 
   /* Global interrupt enable */
   globalInt_Enable;

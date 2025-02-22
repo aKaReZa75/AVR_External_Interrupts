@@ -16,11 +16,7 @@ int main(void)
 {
   GPIO_Config_OUTPUT(RGB_R_Config, RGB_R_PIN);
 
-  bitSet(EIMSK, INT1);  /**< Enable External Interrupt 1 (SW2) */
-  /* Configure External Interrupt 1 to trigger on rising edge */
-  bitSet(EICRA, ISC11);
-  bitSet(EICRA, ISC10); 
-  intFlag_clear(EIFR, INTF1); /**< Clear the interrupt flag for INT1 */
+  eINT1_Init(Initialize);
 
   /* Global interrupt enable */
   globalInt_Enable;

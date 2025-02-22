@@ -16,11 +16,8 @@ int main(void)
 {
   GPIO_Config_OUTPUT(RGB_R_Config, RGB_R_PIN);
 
-  bitSet(PCICR, PCIE0);   /**< Enable Pin Change Interrupt for Port B (PCINT0) */
-  bitSet(PCMSK0, PCINT5); /**< Enable Pin Change Interrupt for Pin 5 on Port B (SW1) */
-
-  intFlag_clear(PCIFR, PCIE0);  /**< Clear the interrupt flag for PCINT0, ensuring no pending interrupts at startup */
-
+  pcINT0_Init(Initialize);
+  
   /* Global interrupt enable */
   globalInt_Enable;
   while(1)

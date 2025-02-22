@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <avr/interrupt.h>
+#include "eINT1.h"
 
 #define bitSet(_Reg, _Bit)    (_Reg |= (1<<_Bit))
 #define bitClear(_Reg, _Bit)  (_Reg &= ~(1<<_Bit))
