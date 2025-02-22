@@ -21,7 +21,7 @@
  * the input parameter _initStatus. The initialization will set the interrupt
  * configuration and enable or disable the interrupt accordingly.
  * 
- * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the ADC module.
+ * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the Interrupt.
  */
 void eINT1_Init(bool _initStatus)
 {

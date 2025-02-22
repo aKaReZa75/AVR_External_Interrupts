@@ -21,7 +21,7 @@
 /**
  * @brief Initializes External Interrupt 1 (INT1).
  * 
- * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the ADC module.
+ * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the Interrupt.
  */
 void eINT1_Init(bool _initStatus);
 

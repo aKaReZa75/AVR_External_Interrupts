@@ -21,7 +21,7 @@
 /**
  * @brief Initializes External Interrupt 0 (INT0).
  * 
- * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the ADC module.
+ * @param _initStatus A boolean indicating whether to initialize (`Initialize`) or deinitialize (`deInitialize`) the Interrupt.
  */
 void eINT0_Init(bool _initStatus);
 
