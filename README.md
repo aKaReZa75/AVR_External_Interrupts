@@ -248,6 +248,171 @@ int main(void)
 }
 ```
 
+## API Reference
+
+This section provides a structured overview of the API functions and Interrupt Service Routines (ISRs) for managing external interrupts on the ATMEGA328 microcontroller. Each function in this section must be called to initialize or deinitialize the corresponding interrupt functionality. The functions allow for setting up the interrupt pins, enabling/disabling interrupts, and configuring trigger conditions.
+
+> [!NOTE]  
+> The library and all of its APIs provided below have been developed by myself.  
+This library utilizes various macros defined in the `aKaReZa.h` header file, which are designed to simplify bitwise operations and register manipulations.    
+Detailed descriptions of these macros can be found at the following link:  
+> [https://github.com/aKaReZa75/AVR/blob/main/Macros.md](https://github.com/aKaReZa75/AVR/blob/main/Macros.md)  
+
+> [!CAUTION]
+Always ensure that global interrupts are enabled using the `sei()` function. Without enabling global interrupts, the microcontroller will not respond to any interrupt triggers.  
+The `sei()` function sets the Global Interrupt Flag (I-bit) in the Status Register (SREG), which allows interrupt requests to be processed by the microcontroller.
+
+You can use the following macros to enable and disable global interrupts:
+
+- **`globalInt_Enable`**: This macro is equivalent to calling `sei()`. It enables global interrupts, allowing the microcontroller to respond to interrupt requests.
+
+- **`globalInt_Disable`**: This macro is equivalent to calling `cli()`. It disables global interrupts, preventing the microcontroller from processing any interrupts.
+
+---
+
+### **External Interrupt 0 (INT0)**
+```c
+void eINT0_Init(bool _initStatus);
+```
+* Initializes the External Interrupt 0 (INT0).
+* This function configures the interrupt source, sets trigger conditions, and enables/disables the interrupt based on the provided status.
+* @param `_initStatus`: 
+  - If `_initStatus` is set to `Initialize`, the INT0 interrupt will be configured and enabled.
+  - If `_initStatus` is set to `deInitialize`, the INT0 interrupt will be disabled and deinitialized.
+
+#### **Interrupt Service Routine (ISR):**
+```c
+ISR(INT0_vect)
+{
+  /* Place your code here */    
+}
+```
+
+This ISR is triggered when an external interrupt occurs on INT0. The interrupt flag for INT0 is cleared to allow subsequent interrupts.
+
+**Example:**
+```c
+#include "aKaReZa.h"
+#include "eInterrupt.h"
+
+ISR(INT0_vect)
+{
+  /* Place your code here */
+
+  intFlag_clear(EIFR, INTF0);  /**< Clear the interrupt flag for INT0 to allow further interrupts */
+};
+
+int main(void) 
+{
+    eINT0_Init(Initialize); /**< Initialize External Interrupt 0 (INT0) */
+    while(1)
+    {
+        /* Main program logic */
+    };
+};
+```
+
+---
+
+### **External Interrupt 1 (INT1)**
+
+```c
+void eINT1_Init(bool _initStatus);
+```
+* Initializes the External Interrupt 1 (INT1).
+* This function configures the interrupt source, sets trigger conditions, and enables/disables the interrupt based on the provided status.
+* @param `_initStatus`: 
+  - If `_initStatus` is set to `Initialize`, the INT1 interrupt will be configured and enabled.
+  - If `_initStatus` is set to `deInitialize`, the INT1 interrupt will be disabled and deinitialized.
+
+#### **Interrupt Service Routine (ISR):**
+```c
+ISR(INT1_vect)
+{
+  /* Place your code here */
+};
+```
+
+**Example:**
+```c
+#include "aKaReZa.h"
+#include "eInterrupt.h"
+
+/* Interrupt Service Routine for INT1 (External Interrupt 1) */
+ISR(INT1_vect)
+{
+  /* Place your code here */
+
+  intFlag_clear(EIFR, INTF1);  /**< Clear the interrupt flag for INT1 to allow further interrupts */
+};
+
+int main(void) 
+{
+    eINT1_Init(Initialize); /**< Initialize External Interrupt 1 (INT1) */
+    while(1)
+    {
+        /* Main program logic */
+    };
+};
+```
+
+This ISR is triggered when an external interrupt occurs on INT1. The interrupt flag for INT1 is cleared to allow subsequent interrupts.
+
+---
+
+### **Pin Change Interrupt 0 (PCINT0)**
+
+```c
+void pcINT0_Init(bool _initStatus);
+```
+* Initializes the Pin Change Interrupt 0 (PCINT0).
+* This function configures the interrupt source and enables/disables the interrupt based on the provided status.
+* @param `_initStatus`: 
+  - If `_initStatus` is set to `Initialize`, the PCINT0 interrupt will be configured and enabled.
+  - If `_initStatus` is set to `deInitialize`, the PCINT0 interrupt will be disabled and deinitialized.
+
+#### **Interrupt Service Routine (ISR):**
+```c
+ISR(PCINT0_vect) 
+{
+  /* Place your code here */
+};
+```
+
+**Example:**
+```c
+#include "aKaReZa.h"
+#include "eInterrupt.h"
+
+/* Interrupt Service Routine for Pin Change Interrupt 0 (PCINT0)*/
+ISR(PCINT0_vect) 
+{
+  /* Place your code here */
+
+  intFlag_clear(PCIFR, PCIE0);  /**< Clear the interrupt flag for PCINT0 to allow further interrupts */
+};
+
+int main(void) 
+{
+    pcINT0_Init(Initialize); /**< Initialize Pin Change Interrupt 0 (PCINT0) */
+    while(1)
+    {
+        /* Main program logic */
+    };
+};
+```
+This ISR is triggered when a pin change interrupt occurs on the configured PCINT0 pin. The interrupt flag for PCINT0 is cleared to allow subsequent interrupts.
+
+### Summary of API Functions
+
+| API Function         | Description                                      |
+|----------------------|--------------------------------------------------|
+| `eINT0_Init`         | Initializes External Interrupt 0 (INT0).         |
+| `eINT1_Init`         | Initializes External Interrupt 1 (INT1).         |
+| `pcINT0_Init`        | Initializes Pin Change Interrupt 0 (PCINT0).    |
+
+By following these APIs and ISRs, you can effectively handle and manage external interrupts on the ATMEGA328 microcontroller. Each interrupt type requires specific configuration and an ISR to handle the interrupt once triggered.
+
 ## Additional Considerations and Common Mistakes
 
 1. **Debouncing Issues**: When using external interrupts triggered by mechanical switches, debounce logic may be necessary to prevent multiple interrupts from being triggered by a single press.
