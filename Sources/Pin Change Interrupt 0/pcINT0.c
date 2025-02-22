@@ -15,7 +15,7 @@
 #include "pcINT0.h"
 
 
-/* Interrupt Service Routine for Pin Change Interrupt 0 (PCINT0) triggered by SW1 */
+/* Interrupt Service Routine for Pin Change Interrupt 0 (PCINT0) */
 ISR(PCINT0_vect) 
 {
   /* Place your code here */
@@ -38,7 +38,7 @@ void pcINT0_Init(bool _initStatus)
   if(_initStatus) 
   {    
     bitSet(PCICR, PCIE0);   /**< Enable Pin Change Interrupt for Port B (PCINT0) */
-    bitSet(PCMSK0, PCINT5); /**< Enable Pin Change Interrupt for Pin 5 on Port B (SW1) */
+    bitSet(PCMSK0, PCINT5); /**< Enable Pin Change Interrupt for Pin 5 on Port B */
     intFlag_clear(PCIFR, PCIE0);  /**< Clear the interrupt flag for PCINT0, ensuring no pending interrupts at startup */
   }
   else

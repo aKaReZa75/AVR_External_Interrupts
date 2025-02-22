@@ -15,7 +15,7 @@
 #include "eINT1.h"
 
 
-/* Interrupt Service Routine for INT1 (External Interrupt 1), triggered by SW2 */
+/* Interrupt Service Routine for INT1 (External Interrupt 1) */
 ISR(INT1_vect)
 {
   /* Place your code here */
@@ -37,7 +37,7 @@ void eINT1_Init(bool _initStatus)
 {
   if(_initStatus) 
   {    
-    bitSet(EIMSK, INT1);  /**< Enable External Interrupt 1 (SW2) */
+    bitSet(EIMSK, INT1);  /**< Enable External Interrupt 1 */
     /* Configure External Interrupt 1 to trigger on rising edge */
     bitSet(EICRA, ISC11);
     bitSet(EICRA, ISC10); 

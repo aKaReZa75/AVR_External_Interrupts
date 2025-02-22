@@ -15,7 +15,7 @@
 #include "eINT0.h"
 
 
-/* Interrupt Service Routine for INT0 (External Interrupt 0), triggered by SW3 */
+/* Interrupt Service Routine for INT0 (External Interrupt 0) */
 ISR(INT0_vect)
 {
   /* Place your code here */
@@ -37,7 +37,7 @@ void eINT0_Init(bool _initStatus)
 {
   if(_initStatus) 
   {    
-    bitSet(EIMSK, INT0);  /**< Enable External Interrupt 0 (SW3) */
+    bitSet(EIMSK, INT0);  /**< Enable External Interrupt 0 */
     /* Configure External Interrupt 0 to trigger on falling edge */
     bitSet(EICRA, ISC01);
     bitClear(EICRA, ISC00); 
