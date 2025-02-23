@@ -4,13 +4,19 @@
 #define RGB_R_Control PORTB
 #define RGB_R_PIN     3
 
-/* Interrupt Service Routine for INT0 (External Interrupt 0), triggered by SW3 */
+/**
+ * @brief Interrupt Service Routine for INT0 (External Interrupt 0), triggered by SW3
+ * 
+ * @note **Important**: For the interrupt to work, `globalInt_Enable` must be called to enable global interrupts. 
+ *       Alternatively, you can set the I-bit (Interrupt Enable) in the `SREG` (Status Register) manually by writing `1` to the I-bit.
+ */
 ISR(INT0_vect)
 {
   bitToggle(RGB_R_Control, RGB_R_PIN);
 
   intFlag_clear(EIFR, INTF0);
 };
+
 
 int main(void)
 {

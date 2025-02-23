@@ -15,7 +15,12 @@
 #include "pcINT0.h"
 
 
-/* Interrupt Service Routine for Pin Change Interrupt 0 (PCINT0) */
+/**
+ * @brief Interrupt Service Routine for Pin Change Interrupt 0 (PCINT0)
+ *
+ * @note **Important**: For the interrupt to work, `globalInt_Enable` must be called to enable global interrupts. 
+ *       Alternatively, you can set the I-bit (Interrupt Enable) in the `SREG` (Status Register) manually by writing `1` to the I-bit.
+ */
 ISR(PCINT0_vect) 
 {
   /* Place your code here */

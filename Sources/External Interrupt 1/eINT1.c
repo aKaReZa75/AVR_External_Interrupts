@@ -15,7 +15,12 @@
 #include "eINT1.h"
 
 
-/* Interrupt Service Routine for INT1 (External Interrupt 1) */
+/**
+ * @brief Interrupt Service Routine for INT1 (External Interrupt 1)
+ * 
+ * @note **Important**: For the interrupt to work, `globalInt_Enable` must be called to enable global interrupts. 
+ *       Alternatively, you can set the I-bit (Interrupt Enable) in the `SREG` (Status Register) manually by writing `1` to the I-bit.
+ */
 ISR(INT1_vect)
 {
   /* Place your code here */
