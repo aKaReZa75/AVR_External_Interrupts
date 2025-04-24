@@ -442,19 +442,34 @@ By following these steps and considerations, external interrupts can be effectiv
 
 # 🔗 Resources
   Here you'll find a collection of useful links and videos related to the topic of AVR microcontrollers.  
-  
+
+<table style="border-collapse: collapse;">
+  <tr>
+    <td valign="top" style="padding: 0 10px;">
+      <h3 style="margin: 0;">
+        <a href="https://youtu.be/eGV7mYVpWX4">aKaReZa 55 – AVR, External Interrupts</a>
+      </h3>
+      <p style="margin: 8px 0 0;">
+        Learn how to set up and use external interrupts on AVR microcontrollers, specifically focusing on the ATMEGA328. Understand interrupt flags and when to manually clear them.
+      </p>
+    </td>
+    <td width="360" valign="top" style="padding: 0;">
+      <a href="https://youtu.be/eGV7mYVpWX4">
+        <img src="https://img.youtube.com/vi/eGV7mYVpWX4/maxresdefault.jpg"
+             width="360"
+             alt="aKaReZa 55 – AVR, External Interrupts Thumbnail"/>
+      </a>
+    </td>
+  </tr>
+</table>
+
 > [!TIP]
 > The resources are detailed in the sections below.  
 > To access any of them, simply click on the corresponding blue link.
 
-- [aKaReZa 55 - AVR, External Interrupts](https://youtu.be/eGV7mYVpWX4)  
-  ---  
-    Learn how to set up and use external interrupts on AVR microcontrollers, specifically focusing on the ATMEGA328. Understand interrupt flags and when to manually clear them.
-  
 - [AVR Microntroller](https://github.com/aKaReZa75/AVR)
   ---  
     This repository contains comprehensive resources for AVR microcontrollers, including hardware schematics, software libraries, and educational projects.
-
 
 # 💻 How to Use Git and GitHub
 To access the repository files and save them on your computer, there are two methods available:
