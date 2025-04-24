@@ -2,9 +2,6 @@
 
 External interrupts in microcontrollers like the ATMEGA328 are used to trigger an interrupt based on external events such as a button press or a signal change. These interrupts are useful for responding to events asynchronously, which allows the main program to continue running while it waits for an interrupt to occur. The ATMEGA328 has several external interrupt pins (INT0, INT1) that can be configured to trigger interrupts on specific events like a rising edge, falling edge, or any logical change on the input signal.
 
-> [!CAUTION]
-> It is absolutely critical that you carefully read every single word of this document, line by line, to ensure you don't miss any details. Nothing can be overlooked.
-
 <table>
   <tr>
   <td valign="top">
@@ -23,7 +20,17 @@ External interrupts in microcontrollers like the ATMEGA328 are used to trigger a
              alt="aKaReZa 95 - Programming, Git - PART B Thumbnail"/>
       </a>
     </td>
+
+  </td>
   </tr>
+  <tr>
+  <td colspan="2">
+
+  > [!CAUTION]
+  > It is absolutely critical that you carefully read every single word of this document, line by line, to ensure you don't miss any details. Nothing can be overlooked.
+      
+  </td>
+  </tr>  
 </table>
 
 ## Registers & Bit Descriptions
