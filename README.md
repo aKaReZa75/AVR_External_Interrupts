@@ -465,6 +465,16 @@ By following these steps and considerations, external interrupts can be effectiv
 # 🔗 Resources
   Here you'll find a collection of useful links and videos related to the topic of AVR microcontrollers.  
 
+```plaintext
+AVR, External Interrupts
+   └── [aKaReZa 55 - AVR, External Interrupts]
+       ├─ INT0 & INT1 — Setup and usage in ATMEGA328.
+       ├─ Header — eInterrupt.h file introduction.
+       ├─ Pin Change INT — Detecting input changes.
+       ├─ Flags — Manual clearing techniques.
+       └─ Optimization — Code efficiency tips.
+```
+
 <table style="border-collapse: collapse;">
   <tr>
     <td valign="top" style="padding: 0 10px;">
