@@ -118,29 +118,6 @@ External Interrupts Overview
   ---
   Covers PD0–PD7 pin change interrupts, enabling in PCICR/PCMSK2, clearing PCIF2 flag, ISR example, and practical applications.
 
-
-## Additional Considerations and Common Mistakes
-
-1. **Debouncing Issues**: When using external interrupts triggered by mechanical switches, debounce logic may be necessary to prevent multiple interrupts from being triggered by a single press.
-   
-   - **Solution**: Use a small delay or software debounce mechanism to ensure clean interrupts.
-
-2. **Interrupt Priority**: ATMEGA328 has fixed interrupt priority, and external interrupts are not the highest priority interrupts. Make sure to handle time-critical tasks in your code accordingly.
-
-3. **Interrupt Flags**: It's essential to clear the interrupt flag (via writing `1` to the flag bit in `EIFR`) in the ISR to ensure that the interrupt can be processed again in the future.
-
-> [!CAUTION]
-Always ensure that global interrupts are enabled using the `sei()` function. Without enabling global interrupts, the microcontroller will not respond to any interrupt triggers, including external interrupts or timer interrupts. The `sei()` function sets the Global Interrupt Flag (I-bit) in the Status Register (SREG), which allows interrupt requests to be processed by the microcontroller.
-
-You can use the following macros to enable and disable global interrupts:
-
-- **`globalInt_Enable`**: This macro is equivalent to calling `sei()`. It enables global interrupts, allowing the microcontroller to respond to interrupt requests.
-
-- **`globalInt_Disable`**: This macro is equivalent to calling `cli()`. It disables global interrupts, preventing the microcontroller from processing any interrupts.
-
-By following these steps and considerations, external interrupts can be effectively managed in the ATMEGA328, providing a robust way to handle asynchronous events.
-
-
 ## **Videos Overview**
 ```plaintext
 AVR, External Interrupts
@@ -179,6 +156,28 @@ AVR, External Interrupts
 - [AVR Microntroller](https://github.com/aKaReZa75/AVR)
   ---  
     This repository contains comprehensive resources for AVR microcontrollers, including hardware schematics, software libraries, and educational projects.
+
+## Additional Considerations and Common Mistakes
+
+1. **Debouncing Issues**: When using external interrupts triggered by mechanical switches, debounce logic may be necessary to prevent multiple interrupts from being triggered by a single press.
+   
+   - **Solution**: Use a small delay or software debounce mechanism to ensure clean interrupts.
+
+2. **Interrupt Priority**: ATMEGA328 has fixed interrupt priority, and external interrupts are not the highest priority interrupts. Make sure to handle time-critical tasks in your code accordingly.
+
+3. **Interrupt Flags**: It's essential to clear the interrupt flag (via writing `1` to the flag bit in `EIFR`) in the ISR to ensure that the interrupt can be processed again in the future.
+
+> [!CAUTION]
+Always ensure that global interrupts are enabled using the `sei()` function. Without enabling global interrupts, the microcontroller will not respond to any interrupt triggers, including external interrupts or timer interrupts. The `sei()` function sets the Global Interrupt Flag (I-bit) in the Status Register (SREG), which allows interrupt requests to be processed by the microcontroller.
+
+You can use the following macros to enable and disable global interrupts:
+
+- **`globalInt_Enable`**: This macro is equivalent to calling `sei()`. It enables global interrupts, allowing the microcontroller to respond to interrupt requests.
+
+- **`globalInt_Disable`**: This macro is equivalent to calling `cli()`. It disables global interrupts, preventing the microcontroller from processing any interrupts.
+
+By following these steps and considerations, external interrupts can be effectively managed in the ATMEGA328, providing a robust way to handle asynchronous events.
+
 
 # 💻 How to Use Git and GitHub
 To access the repository files and save them on your computer, there are two methods available:
