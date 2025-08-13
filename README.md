@@ -112,7 +112,7 @@ External Interrupts Overview
 
 - [PCINT1.md](./PCINT1.md)
   ---
-  Covers PC0–PC6 pin change interrupts, enabling in PCICR/PCMSK1, clearing PCIF1 flag, ISR example, and typical use cases.
+  Covers PC0–PC5 pin change interrupts, enabling in PCICR/PCMSK1, clearing PCIF1 flag, ISR example, and typical use cases.
 
 - [PCINT2.md](./PCINT2.md)
   ---
