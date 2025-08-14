@@ -86,7 +86,7 @@ The ISR is triggered on any logical change of enabled pins in PORTB. You must re
 ```c
 ISR(PCINT0_vect)
 {
-    if (bitCheckHigh(currentPinB, PB2)) 
+    if (bitCheckHigh(PINB, 2)) 
     {
         // Rising edge on PB2
     } 
