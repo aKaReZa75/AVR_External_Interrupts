@@ -114,7 +114,6 @@ intFlag_clear(EIFR, INTF0); // Clear INT0 interrupt flag
 ISR(INT0_vect) 
 {
     // Handle external interrupt event
-    // Example: toggle an LED or read a sensor
 }
 ```
 
@@ -132,17 +131,6 @@ void extInt0_Init(void)
     globalInt_Enable;                 // Enable global interrupts
 }
 ```
-
----
-
-## **Typical Use Cases**
-
-| Application            | Description                                      |
-|------------------------|--------------------------------------------------|
-| Button press detection | Trigger ISR on rising/falling edge              |
-| Sensor signal capture  | React to external sensor output changes         |
-| Wake-up from sleep     | Use low-level trigger to wake MCU from sleep    |
-| Frequency measurement  | Count pulses via ISR                            |
 
 ---
 
