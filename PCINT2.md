@@ -28,18 +28,34 @@ bitSet(PCICR, PCIE2); // Enable pin change interrupt for PORTD (PCINT2 group)
 
 ## **PCMSK2 – Pin Change Mask Register 2**
 
-| Bit | Name     | Pin | Description                        |
-|-----|----------|-----|------------------------------------|
-| 0–7 | PCINT16–23 | PD0–PD7 | Enable interrupt for specific pin |
+| Bit  | Name     | Pin   | Description                                 |
+|------|----------|--------|---------------------------------------------|
+| 0    | PCINT16  | PD0   | Enable pin change interrupt for PD0         |
+| 1    | PCINT17  | PD1   | Enable pin change interrupt for PD1         |
+| 2    | PCINT18  | PD2   | Enable pin change interrupt for PD2         |
+| 3    | PCINT19  | PD3   | Enable pin change interrupt for PD3         |
+| 4    | PCINT20  | PD4   | Enable pin change interrupt for PD4         |
+| 5    | PCINT21  | PD5   | Enable pin change interrupt for PD5         |
+| 6    | PCINT22  | PD6   | Enable pin change interrupt for PD6         |
+| 7    | PCINT23  | PD7   | Enable pin change interrupt for PD7         |
 
-### **Enable Interrupt for PD4 (Example):**
+### **Enable Interrupts for Port D Pins (Examples)**
 
 ```c
-bitSet(PCMSK2, PCINT20); // Enable pin change interrupt for PD4
+bitSet(PCMSK2, PCINT16); // Enable interrupt for PD0
+bitSet(PCMSK2, PCINT17); // Enable interrupt for PD1
+bitSet(PCMSK2, PCINT18); // Enable interrupt for PD2
+bitSet(PCMSK2, PCINT19); // Enable interrupt for PD3
+bitSet(PCMSK2, PCINT20); // Enable interrupt for PD4
+bitSet(PCMSK2, PCINT21); // Enable interrupt for PD5
+bitSet(PCMSK2, PCINT22); // Enable interrupt for PD6
+bitSet(PCMSK2, PCINT23); // Enable interrupt for PD7
 ```
 
 You can enable multiple pins simultaneously by setting multiple bits.
-
+```c
+PCMSK2 |= (1 << PCINT18) | (1 << PCINT20); // Enable PD2 and PD4
+```
 ---
 
 ## **PCIFR – Pin Change Interrupt Flag Register**
@@ -66,14 +82,10 @@ The ISR is triggered on any logical change of enabled pins in PORTD. You must re
 ### **Example ISR:**
 
 ```c
-volatile uint8_t lastPinD;
 
 ISR(PCINT2_vect) 
 {
-    uint8_t currentPinD = PIND;
-    uint8_t changedPins = currentPinD ^ lastPinD;
-
-    if (bitCheckHigh(currentPinD, PD4)) 
+    if (bitCheckHigh(PIND, 4)) 
     {
         // Rising edge on PD4
     } 
@@ -97,17 +109,6 @@ void pcint2_Init(void)
     globalInt_Enable;                 // Enable global interrupts
 }
 ```
-
----
-
-## **Practical Applications**
-
-| Application            | Description                                      |
-|------------------------|--------------------------------------------------|
-| Keypad scanning        | Detect key presses on PORTD pins                |
-| UART RX edge detection | Monitor RX line for activity                    |
-| External module sync   | React to signals from external digital modules  |
-| Wake-up from sleep     | Use pin change to wake MCU from low-power mode  |
 
 ---
 
