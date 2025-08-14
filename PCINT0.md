@@ -28,17 +28,36 @@ bitSet(PCICR, PCIE0); // Enable pin change interrupt for PORTB (PCINT0 group)
 
 ## **PCMSK0 – Pin Change Mask Register 0**
 
-| Bit | Name    | Pin | Description                        |
-|-----|---------|-----|------------------------------------|
-| 0–7 | PCINT0–7| PB0–PB7 | Enable interrupt for specific pin |
+| Bit  | Name     | Pin   | Description                                 |
+|------|----------|--------|---------------------------------------------|
+| 0    | PCINT0   | PB0   | Enable pin change interrupt for PB0         |
+| 1    | PCINT1   | PB1   | Enable pin change interrupt for PB1         |
+| 2    | PCINT2   | PB2   | Enable pin change interrupt for PB2         |
+| 3    | PCINT3   | PB3   | Enable pin change interrupt for PB3         |
+| 4    | PCINT4   | PB4   | Enable pin change interrupt for PB4         |
+| 5    | PCINT5   | PB5   | Enable pin change interrupt for PB5         |
+| 6    | PCINT6   | PB6   | Enable pin change interrupt for PB6         |
+| 7    | PCINT7   | PB7   | Enable pin change interrupt for PB7         |
 
-### **Enable Interrupt for PB2 (Example):**
+---
+
+### 🔧 **Enable Interrupts for Individual Pins (Examples)**
 
 ```c
-bitSet(PCMSK0, PCINT2); // Enable pin change interrupt for PB2
+bitSet(PCMSK0, PCINT0); // Enable interrupt for PB0
+bitSet(PCMSK0, PCINT1); // Enable interrupt for PB1
+bitSet(PCMSK0, PCINT2); // Enable interrupt for PB2
+bitSet(PCMSK0, PCINT3); // Enable interrupt for PB3
+bitSet(PCMSK0, PCINT4); // Enable interrupt for PB4
+bitSet(PCMSK0, PCINT5); // Enable interrupt for PB5
+bitSet(PCMSK0, PCINT6); // Enable interrupt for PB6
+bitSet(PCMSK0, PCINT7); // Enable interrupt for PB7
 ```
-
 You can enable multiple pins simultaneously by setting multiple bits.
+
+```c
+PCMSK0 |= (1 << PCINT1) | (1 << PCINT3) | (1 << PCINT5); // Enable PB1, PB3, PB5
+```
 
 ---
 
@@ -64,10 +83,7 @@ intFlag_clear(PCIFR, PCIF0); // Clear PCINT0 interrupt flag
 The ISR is triggered on any logical change of enabled pins in PORTB. You must read the current pin state and compare it to the previous state to detect rising or falling edges.
 
 ### **Example ISR:**
-
 ```c
-volatile uint8_t lastPinB;
-
 ISR(PCINT0_vect)
 {
     if (bitCheckHigh(currentPinB, PB2)) 
@@ -94,17 +110,6 @@ void pcint0_Init(void)
     globalInt_Enable;                 // Enable global interrupts
 }
 ```
-
----
-
-## **Typical Use Cases**
-
-| Application            | Description                                      |
-|------------------------|--------------------------------------------------|
-| Button press detection | Detect rising or falling edge on input pins     |
-| Rotary encoder input   | Monitor multiple pins for directional changes    |
-| External signal monitor| React to asynchronous digital signals            |
-| Wake-up from sleep     | Use pin change to wake MCU from low-power mode   |
 
 ---
 
