@@ -93,6 +93,10 @@ External Interrupts Overview
     └─ [PCIFR]   — Pin Change Interrupt Flag Register
 ```
 
+> [!TIP]
+> The resources are detailed in the sections below.  
+> To access any of them, simply click on the corresponding blue link.
+
 - [EXT\_INT0.md](./EXT_INT0.md)
   ---
   Covers PD2/INT0 configuration, enabling in EIMSK, selecting trigger mode in EICRA, clearing INTF0 flag, ISR example, and typical use cases.
