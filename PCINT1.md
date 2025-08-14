@@ -1,4 +1,4 @@
-This document covers the configuration and usage of Pin Change Interrupt 1 (PCINT1) on the ATmega328 microcontroller. It explains how to enable interrupts for pins PC0–PC6 using PCICR and PCMSK1, how to clear the PCIF1 flag, write the ISR, and implement logic to detect pin changes.
+This document covers the configuration and usage of Pin Change Interrupt 1 (PCINT1) on the ATmega328 microcontroller. It explains how to enable interrupts for pins PC0–PC5 using PCICR and PCMSK1, how to clear the PCIF1 flag, write the ISR, and implement logic to detect pin changes.
 
 ---
 
@@ -6,7 +6,7 @@ This document covers the configuration and usage of Pin Change Interrupt 1 (PCIN
 
 | Group     | Pins     | Port     | Interrupt Vector |
 |-----------|----------|----------|------------------|
-| PCINT1    | PC0–PC6  | PORTC    | `PCINT1_vect`    |
+| PCINT1    | PC0–PC5  | PORTC    | `PCINT1_vect`    |
 
 Pin Change Interrupt 1 monitors all pins on PORTC. Any logical change (rising or falling edge) on an enabled pin will trigger the interrupt.
 
@@ -26,19 +26,34 @@ bitSet(PCICR, PCIE1); // Enable pin change interrupt for PORTC (PCINT1 group)
 
 ---
 
-## **PCMSK1 – Pin Change Mask Register 1**
+## 🧩 **PCMSK1 – Pin Change Mask Register 1 (Port C)**
 
-| Bit | Name    | Pin | Description                        |
-|-----|---------|-----|------------------------------------|
-| 0–6 | PCINT8–14 | PC0–PC6 | Enable interrupt for specific pin |
+| Bit  | Name     | Pin   | Description                                 |
+|------|----------|--------|---------------------------------------------|
+| 0    | PCINT8   | PC0   | Enable pin change interrupt for PC0         |
+| 1    | PCINT9   | PC1   | Enable pin change interrupt for PC1         |
+| 2    | PCINT10  | PC2   | Enable pin change interrupt for PC2         |
+| 3    | PCINT11  | PC3   | Enable pin change interrupt for PC3         |
+| 4    | PCINT12  | PC4   | Enable pin change interrupt for PC4         |
+| 5    | PCINT13  | PC5   | Enable pin change interrupt for PC5         |
 
-### **Enable Interrupt for PC2 (Example):**
+
+### 🔧 **Enable Interrupts for Port C Pins (Examples)**
 
 ```c
-bitSet(PCMSK1, PCINT10); // Enable pin change interrupt for PC2
+bitSet(PCMSK1, PCINT8);  // Enable interrupt for PC0
+bitSet(PCMSK1, PCINT9);  // Enable interrupt for PC1
+bitSet(PCMSK1, PCINT10); // Enable interrupt for PC2
+bitSet(PCMSK1, PCINT11); // Enable interrupt for PC3
+bitSet(PCMSK1, PCINT12); // Enable interrupt for PC4
+bitSet(PCMSK1, PCINT13); // Enable interrupt for PC5
 ```
 
 You can enable multiple pins simultaneously by setting multiple bits.
+
+```c
+PCMSK1 |= (1 << PCINT9) | (1 << PCINT11); // Enable PC1 and PC3
+```
 
 ---
 
@@ -66,11 +81,9 @@ The ISR is triggered on any logical change of enabled pins in PORTC. You must re
 ### **Example ISR:**
 
 ```c
-volatile uint8_t lastPinC;
-
 ISR(PCINT1_vect) 
 {
-    if (bitCheckHigh(currentPinC, PC2)) 
+    if (bitCheckHigh(PINC, 2)) 
     {
         // Rising edge on PC2
     } 
@@ -94,17 +107,6 @@ void pcint1_Init(void)
     globalInt_Enable;                 // Enable global interrupts
 }
 ```
-
----
-
-## **Typical Use Cases**
-
-| Application            | Description                                      |
-|------------------------|--------------------------------------------------|
-| Capacitive touch input | Detect changes on sensor pads connected to PCx  |
-| I2C or analog event sync| Monitor external signal transitions             |
-| Wake-up from sleep     | Use pin change to wake MCU from low-power mode   |
-| Multi-channel input     | Monitor multiple digital inputs simultaneously  |
 
 ---
 
