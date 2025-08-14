@@ -48,8 +48,7 @@ External Interrupts Overview
 │   │   ├─ Trigger Modes — Low level, logical change, falling edge, rising edge
 │   │   ├─ Flag — EIFR (INTF0)
 │   │   ├─ Clearing Flag — Write 1 to INTF0
-│   │   ├─ ISR Vector — INT0_vect
-│   │   └─ Example — Button press detection
+│   │   └─ ISR Vector — INT0_vect
 │   │
 │   ├─ [EXT_INT1]
 │   │   ├─ Pin — PD3 (INT1)
@@ -57,8 +56,7 @@ External Interrupts Overview
 │   │   ├─ Trigger Modes — Low level, logical change, falling edge, rising edge
 │   │   ├─ Flag — EIFR (INTF1)
 │   │   ├─ Clearing Flag — Write 1 to INTF1
-│   │   ├─ ISR Vector — INT1_vect
-│   │   └─ Example — Sensor signal edge detection
+│   │   └─ ISR Vector — INT1_vect
 │   │
 │   ├─ [PCINT0]
 │   │   ├─ Pins — PB0–PB7 (PCINT0–PCINT7)
@@ -66,8 +64,7 @@ External Interrupts Overview
 │   │   ├─ Trigger — Any logical change
 │   │   ├─ Flag — PCIFR (PCIF0)
 │   │   ├─ Clearing Flag — Write 1 to PCIF0
-│   │   ├─ ISR Vector — PCINT0_vect
-│   │   └─ Example — SPI chip select detection
+│   │   └─ ISR Vector — PCINT0_vect
 │   │
 │   ├─ [PCINT1]
 │   │   ├─ Pins — PC0–PC6 (PCINT8–PCINT14)
@@ -75,8 +72,7 @@ External Interrupts Overview
 │   │   ├─ Trigger — Any logical change
 │   │   ├─ Flag — PCIFR (PCIF1)
 │   │   ├─ Clearing Flag — Write 1 to PCIF1
-│   │   ├─ ISR Vector — PCINT1_vect
-│   │   └─ Example — I²C activity detection
+│   │   └─ ISR Vector — PCINT1_vect
 │   │
 │   └─ [PCINT2]
 │       ├─ Pins — PD0–PD7 (PCINT16–PCINT23)
@@ -84,8 +80,7 @@ External Interrupts Overview
 │       ├─ Trigger — Any logical change
 │       ├─ Flag — PCIFR (PCIF2)
 │       ├─ Clearing Flag — Write 1 to PCIF2
-│       ├─ ISR Vector — PCINT2_vect
-│       └─ Example — UART RX line activity detection
+│       └─ ISR Vector — PCINT2_vect
 │
 └── Registers
     ├─ [EICRA]   — External Interrupt Control Register A
