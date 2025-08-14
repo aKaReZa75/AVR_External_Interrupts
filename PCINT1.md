@@ -26,7 +26,7 @@ bitSet(PCICR, PCIE1); // Enable pin change interrupt for PORTC (PCINT1 group)
 
 ---
 
-## 🧩 **PCMSK1 – Pin Change Mask Register 1 (Port C)**
+## **PCMSK1 – Pin Change Mask Register 1 (Port C)**
 
 | Bit  | Name     | Pin   | Description                                 |
 |------|----------|--------|---------------------------------------------|
@@ -38,7 +38,7 @@ bitSet(PCICR, PCIE1); // Enable pin change interrupt for PORTC (PCINT1 group)
 | 5    | PCINT13  | PC5   | Enable pin change interrupt for PC5         |
 
 
-### 🔧 **Enable Interrupts for Port C Pins (Examples)**
+### **Enable Interrupts for Port C Pins (Examples)**
 
 ```c
 bitSet(PCMSK1, PCINT8);  // Enable interrupt for PC0
