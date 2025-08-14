@@ -110,7 +110,6 @@ intFlag_clear(EIFR, INTF1); // Clear INT1 interrupt flag
 ISR(INT1_vect) 
 {
     // Handle external interrupt event
-    // Example: toggle an output or read external data
 }
 ```
 
@@ -128,17 +127,6 @@ void extInt1_Init(void)
     globalInt_Enable;                 // Enable global interrupts
 }
 ```
-
----
-
-## **Typical Use Cases**
-
-| Application            | Description                                      |
-|------------------------|--------------------------------------------------|
-| External sensor trigger| React to signal change from external sensor     |
-| Encoder edge detection | Capture rising/falling edges for motion tracking|
-| Wake-up from sleep     | Use low-level trigger to wake MCU from sleep    |
-| Signal synchronization | Align internal logic with external timing       |
 
 ---
 
