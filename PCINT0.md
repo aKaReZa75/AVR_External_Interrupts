@@ -41,7 +41,7 @@ bitSet(PCICR, PCIE0); // Enable pin change interrupt for PORTB (PCINT0 group)
 
 ---
 
-### 🔧 **Enable Interrupts for Individual Pins (Examples)**
+### **Enable Interrupts for Individual Pins (Examples)**
 
 ```c
 bitSet(PCMSK0, PCINT0); // Enable interrupt for PB0
